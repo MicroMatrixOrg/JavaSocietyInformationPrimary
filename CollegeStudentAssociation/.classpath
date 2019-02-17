@@ -8,5 +8,12 @@
 	<classpathentry kind="lib" path="lib/swingx-core-1.6.2.jar"/>
 	<classpathentry kind="lib" path="lib/datepicker.jar"/>
 	<classpathentry kind="lib" path="lib/audio.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/xmlbeans-3.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/poi-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-examples-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-excelant-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-scratchpad-4.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
