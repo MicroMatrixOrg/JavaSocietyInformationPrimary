@@ -1,31 +1,31 @@
 package com.luobo.view;
 
 import java.awt.EventQueue;
-
-import javax.swing.JInternalFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-
 import java.awt.Font;
-
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.ButtonGroup;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.table.DefaultTableModel;
 
 import com.luobo.dao.DepartmentDao;
 import com.luobo.dao.MembersDao;
@@ -33,9 +33,7 @@ import com.luobo.model.Department;
 import com.luobo.model.Manager;
 import com.luobo.model.Members;
 import com.luobo.util.StringUtils;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import com.luobo.util.TestDbToExcel;
 
 
 public class ManageMembersFrm extends JInternalFrame {
@@ -52,6 +50,7 @@ public class ManageMembersFrm extends JInternalFrame {
 	private JComboBox searchDepartmentNameComboBox;
 	private JComboBox editDepartmentComboBox;
 	private List<Department> departmentList;
+	private JButton deleteButton;
 
 	/**
 	 * Launch the application.
@@ -157,7 +156,7 @@ public class ManageMembersFrm extends JInternalFrame {
 		sumbitButton.setIcon(new ImageIcon(ManageMembersFrm.class.getResource("/images/\u786E\u8BA4.png")));
 		sumbitButton.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		
-		JButton deleteButton = new JButton("\u5220\u9664\u793E\u5458");
+		deleteButton = new JButton("\u5220\u9664\u793E\u5458");
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ag) {
 				deleteMembersAct(ag);
@@ -179,6 +178,15 @@ public class ManageMembersFrm extends JInternalFrame {
 		memeberSexGroup.add(editMembersFemaleRadioButton);
 		memeberSexGroup.add(editMembersManRadioButton);
 		memeberSexGroup.add(editMembersUnknowRadioButton);
+		
+		JButton btnNewButton = new JButton("\u5BFC\u51FA\u90E8\u95E8");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				exportDepartment(ae);
+			}
+		});
+		btnNewButton.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		btnNewButton.setIcon(new ImageIcon(ManageMembersFrm.class.getResource("/images/\u5BFC\u51FAExcel.png")));
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -234,12 +242,13 @@ public class ManageMembersFrm extends JInternalFrame {
 												.addComponent(editMembersPasswordTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 												.addComponent(editMembersContactTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
 								.addComponent(label_7))
-							.addPreferredGap(ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(sumbitButton)
-								.addComponent(deleteButton))
-							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addContainerGap(42, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+									.addComponent(sumbitButton)
+									.addComponent(deleteButton))
+								.addComponent(btnNewButton))))
+					.addContainerGap(23, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -267,7 +276,8 @@ public class ManageMembersFrm extends JInternalFrame {
 						.addComponent(editMembersContactTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(editMembersManRadioButton)
 						.addComponent(editMembersFemaleRadioButton)
-						.addComponent(editMembersUnknowRadioButton))
+						.addComponent(editMembersUnknowRadioButton)
+						.addComponent(btnNewButton))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(label_4)
@@ -276,7 +286,7 @@ public class ManageMembersFrm extends JInternalFrame {
 							.addComponent(label_7)
 							.addComponent(editMembersPasswordTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(deleteButton)))
-					.addContainerGap(41, Short.MAX_VALUE))
+					.addContainerGap(57, Short.MAX_VALUE))
 		);
 		
 		membersListTable = new JTable();
@@ -308,11 +318,38 @@ public class ManageMembersFrm extends JInternalFrame {
 		scrollPane.setViewportView(membersListTable);
 		getContentPane().setLayout(groupLayout);
 		setAuthority();
-		setTable(new Members());
+		//setTable(new Members());
 		setDepartment();
 	}
 
 	
+
+	protected void exportDepartment(ActionEvent ae) {
+		// TODO Auto-generated method stub
+		
+        JFileChooser fc = new JFileChooser();
+        int option = fc.showSaveDialog(ManageMembersFrm.this);
+        if(option == JFileChooser.APPROVE_OPTION){
+            String filename = fc.getSelectedFile().getName(); 
+            String path = fc.getSelectedFile().getParentFile().getPath();//跳出对话框选择存储位置
+
+			int len = filename.length();
+			String ext = "";
+			String file = "";
+
+			if(len > 4){
+				ext = filename.substring(len-4, len);
+			}
+
+			if(ext.equals(".xls")){
+				file = path + "\\" + filename; 
+			}else{
+				file = path + "\\" + filename + ".xls"; 
+			}
+			TestDbToExcel.toExcel(membersListTable, new File(file));
+		}
+	
+	}
 
 	protected void deleteMembersAct(ActionEvent ag) {
 		// TODO Auto-generated method stub
@@ -392,7 +429,7 @@ public class ManageMembersFrm extends JInternalFrame {
 			JOptionPane.showMessageDialog(this, "更新失败！");
 		}
 		membersDao.closeDao();
-		setTable(new Members());
+		
 		
 	}
 
@@ -456,10 +493,12 @@ public class ManageMembersFrm extends JInternalFrame {
 	private String getDepartmnetNameById(int id){
 		DepartmentDao departmentDao = new DepartmentDao();
 		departmentList = departmentDao.getDepartmentList(new Department());
+		departmentDao.closeDao();
 		for (Department dp : departmentList) {
 			if(dp.getId()==id)
 				return dp.getName();
 		}
+		
 		return "";
 	}
 	private void setAuthority(){
@@ -482,6 +521,31 @@ public class ManageMembersFrm extends JInternalFrame {
 				}
 			}
 			editDepartmentComboBox.setEnabled(false);
+			setTable(new Members());
+		}
+		else if("社团成员".equals(MainFrm.userType.getName())){
+			Members members = (Members)MainFrm.userObject;
+			int departmentId = members.getDepartment_id();
+			for(int i=0;i<searchDepartmentNameComboBox.getItemCount();i++){
+				Department dep = (Department)searchDepartmentNameComboBox.getItemAt(i);
+				if(dep.getId()==departmentId){
+					searchDepartmentNameComboBox.setSelectedIndex(i);
+					break;
+				}
+			}
+			searchDepartmentNameComboBox.setEnabled(false);
+			for(int i=0;i<editDepartmentComboBox.getItemCount();i++){
+				Department dep = (Department)editDepartmentComboBox.getItemAt(i);
+				if(dep.getId()==departmentId){
+					editDepartmentComboBox.setSelectedIndex(i);
+					break;
+				}
+			}
+			editDepartmentComboBox.setEnabled(false);
+			deleteButton.setEnabled(false);
+			searchNameTextField.setText(members.getName().toString());
+			searchNameTextField.setEnabled(false);
+			setTable(members);
 		}
 	}
 }

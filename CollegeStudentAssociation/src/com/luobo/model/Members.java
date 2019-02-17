@@ -50,4 +50,7 @@ public class Members {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
+	public String toString(){
+		return this.name;
+	}
 }

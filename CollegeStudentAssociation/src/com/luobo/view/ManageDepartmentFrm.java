@@ -499,6 +499,7 @@ public class ManageDepartmentFrm extends JInternalFrame {
 					break;
 				}
 			}
+			departmentDao.closeDao();
 			editDepartmentNameTextField.setEnabled(false);
 			masterComboBox.setEnabled(false);
 			masterTitle();

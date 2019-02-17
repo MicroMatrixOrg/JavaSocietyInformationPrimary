@@ -19,7 +19,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.luobo.dao.ManagerDao;
+import com.luobo.model.Department;
 import com.luobo.model.Manager;
+import com.luobo.model.Members;
 import com.luobo.util.StringUtils;
 
 import java.awt.event.ActionListener;
@@ -36,7 +38,7 @@ public class ManageManagerFrm extends JInternalFrame {
 	private JTextField editPasswordTextField;
 	private JTextField editTitleTextField;
 	private JTextField editContactInfomationTextField;
-
+	private JButton deleteButton;
 	/**
 	 * Launch the application.
 	 */
@@ -115,14 +117,14 @@ public class ManageManagerFrm extends JInternalFrame {
 		button_1.setIcon(new ImageIcon(ManageManagerFrm.class.getResource("/images/\u786E\u8BA4.png")));
 		button_1.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.PLAIN, 14));
 		
-		JButton button_2 = new JButton("\u5220\u9664");
-		button_2.addActionListener(new ActionListener() {
+		deleteButton = new JButton("\u5220\u9664");
+		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				deleteManagerAct(ae);
 			}
 		});
-		button_2.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.PLAIN, 14));
-		button_2.setIcon(new ImageIcon(ManageManagerFrm.class.getResource("/images/\u5220 \u9664.png")));
+		deleteButton.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.PLAIN, 14));
+		deleteButton.setIcon(new ImageIcon(ManageManagerFrm.class.getResource("/images/\u5220 \u9664.png")));
 		
 		JLabel label_4 = new JLabel("\u8054\u7CFB\u65B9\u5F0F:");
 		label_4.setIcon(new ImageIcon(ManageManagerFrm.class.getResource("/images/\u8054\u7CFB\u65B9\u5F0F.png")));
@@ -142,7 +144,7 @@ public class ManageManagerFrm extends JInternalFrame {
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(button_1)
 									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(button_2))
+									.addComponent(deleteButton))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 										.addGroup(groupLayout.createSequentialGroup()
@@ -200,7 +202,7 @@ public class ManageManagerFrm extends JInternalFrame {
 					.addPreferredGap(ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(button_1)
-						.addComponent(button_2))
+						.addComponent(deleteButton))
 					.addGap(24))
 		);
 		
@@ -232,8 +234,7 @@ public class ManageManagerFrm extends JInternalFrame {
 		managerListTable.getColumnModel().getColumn(4).setPreferredWidth(193);
 		scrollPane.setViewportView(managerListTable);
 		getContentPane().setLayout(groupLayout);
-		setTable(new Manager());
-
+		setAuthority();
 	}
 
 	protected void submitManagerAct(ActionEvent ae) {
@@ -332,5 +333,19 @@ public class ManageManagerFrm extends JInternalFrame {
 			dft.addRow(v);
 		}
 		managerDao.closeDao();
+	}
+	private void setAuthority(){
+		if("…ÁÕ≈π‹¿Ì‘±".equals(MainFrm.userType.getName())){
+			Manager manager = (Manager)MainFrm.userObject;
+			searchNameTextField.setText(manager.getName());
+			searchNameTextField.setEnabled(false);
+			deleteButton.setEnabled(false);
+			editTitleTextField.setEnabled(false);
+			setTable(manager);
+		}
+		else{
+			setTable(new Manager());
+		}
+			
 	}
 }

@@ -34,6 +34,35 @@ public class MembersDao extends BaseDao{
 		}
 		return false;
 	}
+	
+	public  List<Members> getMembersListByDepartMentId(int  id){
+		List<Members> retList = new ArrayList<Members>();
+		StringBuffer sql=new StringBuffer("select * from s_members ");
+		
+		if(id!=0){
+			sql.append("and  department_id = "+id);
+		}
+		try {
+			PreparedStatement pre = con.prepareStatement(sql.toString().replaceFirst("and", "where"));
+			ResultSet executeQuery = pre.executeQuery();
+			while(executeQuery.next()){
+				Members me = new Members();
+				me.setId(executeQuery.getInt("id"));
+				me.setName(executeQuery.getString("name"));
+				me.setSex(executeQuery.getString("sex"));
+				me.setAge(executeQuery.getInt("age"));
+				me.setContact(executeQuery.getString("contact"));
+				me.setDepartment_id(executeQuery.getInt("department_id"));
+				me.setPassword(executeQuery.getString("password"));
+				retList.add(me);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retList;
+	}
+	
 	public List<Members> getMembersList(Members members){
 		List<Members> retList = new ArrayList<Members>();
 		StringBuffer sql=new StringBuffer("select * from s_members ");
@@ -63,6 +92,8 @@ public class MembersDao extends BaseDao{
 		}
 		return retList;
 	}
+	
+	
 	
 	public boolean deleteMembers(int id){
 		String sql = "delete from s_members where id = ?";

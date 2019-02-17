@@ -33,7 +33,12 @@ public class MainFrm extends JFrame {
 	private JMenu manageManagerMenu;
 	private JMenu manageDepartmentMenu;
 	private JMenuItem addDepartmentNewMenuItem;
-
+	private JMenuItem addMemberMenuItem;
+	private JMenuItem addManagerMenuItem;
+	private JMenuItem addCourseMenuItem;
+	private JMenu selectCourseMenu;
+	private JMenuItem exportMenuItem;
+	private JMenu dataMenu ;
 	/**
 	 * Launch the application.
 	 */
@@ -70,10 +75,10 @@ public class MainFrm extends JFrame {
 		
 		setTitle("\u8BA1\u7B97\u673A\u793E\u56E2\u4FE1\u606F\u7BA1\u7406\u7CFB\u7EDF");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 629, 593);
+		setBounds(100, 100, 727, 593);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setFont(new Font("微锟斤拷锟脚猴拷", Font.PLAIN, 14));
+		menuBar.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		setJMenuBar(menuBar);
 		
 		JMenu menu = new JMenu("\u7CFB\u7EDF\u8BBE\u7F6E");
@@ -106,15 +111,15 @@ public class MainFrm extends JFrame {
 		manageMembersMenu.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u793E\u5458\u8D44\u6599.png")));
 		menuBar.add(manageMembersMenu);
 		
-		JMenuItem menuItem_2 = new JMenuItem("\u793E\u5458\u6DFB\u52A0");
-		menuItem_2.addActionListener(new ActionListener() {
+		addMemberMenuItem = new JMenuItem("\u793E\u5458\u6DFB\u52A0");
+		addMemberMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ag) {
 				addMembersAct(ag);
 			}
 		});
-		menuItem_2.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-		menuItem_2.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u793E\u5458\u6DFB\u52A0.png")));
-		manageMembersMenu.add(menuItem_2);
+		addMemberMenuItem.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		addMemberMenuItem.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u793E\u5458\u6DFB\u52A0.png")));
+		manageMembersMenu.add(addMemberMenuItem);
 		
 		JMenuItem menuItem_3 = new JMenuItem("\u793E\u5458\u5217\u8868");
 		menuItem_3.addActionListener(new ActionListener() {
@@ -131,25 +136,25 @@ public class MainFrm extends JFrame {
 		manageManagerMenu.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		menuBar.add(manageManagerMenu);
 		
-		JMenuItem menuItem_4 = new JMenuItem("\u5E72\u5458\u6DFB\u52A0");
-		menuItem_4.addActionListener(new ActionListener() {
+		addManagerMenuItem = new JMenuItem("\u5E72\u5458\u6DFB\u52A0");
+		addManagerMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				addManagerAct(ae);
 			}
 		});
-		menuItem_4.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u5E72\u5458\u6DFB\u52A0.png")));
-		menuItem_4.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-		manageManagerMenu.add(menuItem_4);
+		addManagerMenuItem.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u5E72\u5458\u6DFB\u52A0.png")));
+		addManagerMenuItem.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		manageManagerMenu.add(addManagerMenuItem);
 		
-		JMenuItem menuItem_5 = new JMenuItem("\u5E72\u5458\u5217\u8868");
-		menuItem_5.addActionListener(new ActionListener() {
+		JMenuItem managerListMenuItem = new JMenuItem("\u5E72\u5458\u5217\u8868");
+		managerListMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ag) {
 				manageManagerListAct(ag);
 			}
 		});
-		menuItem_5.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u5E72\u5458\u5217\u8868.png")));
-		menuItem_5.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-		manageManagerMenu.add(menuItem_5);
+		managerListMenuItem.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u5E72\u5458\u5217\u8868.png")));
+		managerListMenuItem.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		manageManagerMenu.add(managerListMenuItem);
 		
 		manageDepartmentMenu = new JMenu("\u90E8\u95E8\u7BA1\u7406");
 		manageDepartmentMenu.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u90E8\u95E8.png")));
@@ -176,6 +181,65 @@ public class MainFrm extends JFrame {
 		menuItem_6.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		manageDepartmentMenu.add(menuItem_6);
 		
+		selectCourseMenu = new JMenu("课程管理");
+		selectCourseMenu.setIcon(new ImageIcon(MainFrm.class.getResource("/images/课程.png")));
+		selectCourseMenu.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		menuBar.add(selectCourseMenu);
+		
+		addCourseMenuItem = new JMenuItem("添加课程");
+		addCourseMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ag) {
+				addCourseAct(ag);
+			}
+		});
+		addCourseMenuItem.setIcon(new ImageIcon(MainFrm.class.getResource("/images/添加课程.png")));
+		addCourseMenuItem.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		selectCourseMenu.add(addCourseMenuItem);
+		
+		JMenuItem ManageCourseMenuItem = new JMenuItem("课程管理");
+		ManageCourseMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ag) {
+				manageCourseAct(ag);
+			}
+		});
+		ManageCourseMenuItem.setIcon(new ImageIcon(MainFrm.class.getResource("/images/课程管理.png")));
+		ManageCourseMenuItem.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		selectCourseMenu.add(ManageCourseMenuItem);
+		
+		dataMenu = new JMenu("数据功能");
+		dataMenu.setIcon(new ImageIcon(MainFrm.class.getResource("/images/数据.png")));
+		dataMenu.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		menuBar.add(dataMenu);
+		
+		exportMenuItem = new JMenuItem("导出社员");
+		exportMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ag) {
+				ImportDataFrm importDataFrm = new ImportDataFrm();
+				importDataFrm.setVisible(true);
+				desktopPane.add(importDataFrm);
+			}
+		});
+		exportMenuItem.setIcon(new ImageIcon(MainFrm.class.getResource("/images/导出.png")));
+		exportMenuItem.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		dataMenu.add(exportMenuItem);
+		
+		JMenu menu_3 = new JMenu("选课功能");
+		menu_3.setIcon(new ImageIcon(MainFrm.class.getResource("/images/选课.png")));
+		menu_3.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		menuBar.add(menu_3);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("选课管理");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ag) {
+				ChooseCourseFrm chooseCourseFrm = new ChooseCourseFrm();
+				chooseCourseFrm.setVisible(true);
+				desktopPane.add(chooseCourseFrm);
+			}
+		});
+		mntmNewMenuItem.setIcon(new ImageIcon(MainFrm.class.getResource("/images/选课管理.png")));
+		mntmNewMenuItem.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		menu_3.add(mntmNewMenuItem);
+		
 		JMenu menu_4 = new JMenu("\u5E2E\u52A9");
 		menu_4.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u5E2E\u52A9.png")));
 		menu_4.setFont(new Font("微软雅黑", Font.PLAIN, 14));
@@ -201,6 +265,21 @@ public class MainFrm extends JFrame {
 		contentPane.add(desktopPane, BorderLayout.CENTER);
 		setLocationRelativeTo(null);
 		setAuthority();
+	}
+
+
+	protected void manageCourseAct(ActionEvent ag) {
+		// TODO Auto-generated method stub
+		ManageCourseFrm manageCourseFrm = new ManageCourseFrm();
+		manageCourseFrm.setVisible(true);
+		desktopPane.add(manageCourseFrm);
+	}
+
+	protected void addCourseAct(ActionEvent ag) {
+		// TODO Auto-generated method stub
+		AddCourseFrm addCourseFrm = new AddCourseFrm();
+		addCourseFrm.setVisible(true);
+		desktopPane.add(addCourseFrm);
 	}
 
 	protected void manageMembersAct(ActionEvent ag) {
@@ -265,7 +344,7 @@ public class MainFrm extends JFrame {
 		String[] buttons={"迫不及待去看看!","心情好点再去看"};
 		int get=JOptionPane.showOptionDialog(this, info, "关于我们", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.DEFAULT_OPTION, new ImageIcon(LoginFrm.class.getResource("/images/login.png")), buttons, null);
 		if(get==0){
-			//java 锟斤拷锟斤拷 锟斤拷锟斤拷锟斤拷锟斤拷锟�
+			
 			try {
 				URI url=new URI("http://www.baidu.com");
 				Desktop.getDesktop().browse(url);
@@ -282,10 +361,13 @@ public class MainFrm extends JFrame {
 		if("社团成员".equals(userType.getName())){
 			manageManagerMenu.setEnabled(false);
 			manageDepartmentMenu.setEnabled(false);
-			manageMembersMenu.setEnabled(false);
+			//manageMembersMenu.setEnabled(false);
+			addMemberMenuItem.setEnabled(false);
+			selectCourseMenu.setEnabled(false);
+			dataMenu.setEnabled(false);
 		}
 		else if("社团管理员".equals(userType.getName())){
-			manageManagerMenu.setEnabled(false);
+			addManagerMenuItem.setEnabled(false);
 			addDepartmentNewMenuItem.setEnabled(false);
 		}
 	}
